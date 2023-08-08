@@ -56,6 +56,10 @@ stages:
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
+    - task: PythonScript@0
+      inputs:
+            scriptSource: 'inline'
+            script: 'pytest -v /home/vsts/work/1/s/tests/calculator_test.py'
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
