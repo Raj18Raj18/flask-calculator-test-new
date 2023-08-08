@@ -61,13 +61,6 @@ stages:
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
-    
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFiles: '**/junit.xml'
-        testRunTitle: 'Test Results'
-      condition: succeededOrFailed()
-
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
       artifact: drop
