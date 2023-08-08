@@ -48,6 +48,9 @@ stages:
         pip install -r requirements.txt
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
+    - script: |
+        pytest tests/calculator_test.py
+      displayName: "Run Tests"
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
@@ -57,10 +60,12 @@ stages:
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
-    - task: PythonScript@0
+    
+    - task: PublishTestResults@2
       inputs:
-            scriptSource: 'inline'
-            script: 'pytest -v /home/vsts/work/1/s/tests/calculator_test.py'
+        testResultsFiles: '**/junit.xml'
+        testRunTitle: 'Test Results'
+      condition: succeededOrFailed()
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
