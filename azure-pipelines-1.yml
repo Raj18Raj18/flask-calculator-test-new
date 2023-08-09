@@ -44,6 +44,8 @@ stages:
         python -m pip install --upgrade pip
         pip install setup
         pip install pytest
+        pip install pytest-cov
+        pip install --upgrade setuptools
         pwd
         pip install -r requirements.txt
         pytest -v tests/calculator_test.py
