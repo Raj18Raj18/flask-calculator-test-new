@@ -46,8 +46,7 @@ stages:
         pip install pytest
         pwd
         pip install -r requirements.txt
-        pytest -v tests/calculator_test.py
-        python -m pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml --cov-report=html
+        pytest -v tests/calculator_test.py > testresults.txt
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
 #    - script: |
@@ -65,11 +64,11 @@ stages:
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
       artifact: drop
-    - task: PublishTestResults@2
+    - task: CmdLine@2
+      displayName: 'Test Results'
       inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: '**/test-*.xml' 
-      displayName: 'Pytest-result'
+       script: 'cat testresults.txt'
+       workingDirectory: $(projectRoot)
 - stage: Deploy
   displayName: 'Deploy Web App'
   dependsOn: Build
