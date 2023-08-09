@@ -49,10 +49,6 @@ stages:
         pytest -v tests/calculator_test.py > testresults.txt
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
-#    - script: |
-#        pytest tests/calculator_test.py
-#      displayName: "Run Tests"
-
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
